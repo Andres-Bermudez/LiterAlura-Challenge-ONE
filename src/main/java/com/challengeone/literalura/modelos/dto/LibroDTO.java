@@ -1,17 +1,17 @@
-package com.challengeone.literalura.modelos;
+package com.challengeone.literalura.modelos.dto;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 import java.util.Map;
 
-public class Libro{
-    private Integer id = 0;
+public class LibroDTO {
+    private Long id = 0L;
 
     @SerializedName("title")
     private String titulo;
 
     @SerializedName("authors")
-    private List<Autor> autores;
+    private List<AutorDTO> autores;
 
     @SerializedName("languages")
     List<String> idiomas;
@@ -20,9 +20,9 @@ public class Libro{
     private Map<String, String> urlsLibro;
 
     @SerializedName("download_count")
-    private Integer totalDescargas;
+    private Long totalDescargas;
 
-    public Libro() {
+    public LibroDTO() {
         id += 1;
     }
 
@@ -35,7 +35,7 @@ public class Libro{
                 "\nTotal de descargas: " + totalDescargas;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -43,7 +43,7 @@ public class Libro{
         return titulo;
     }
 
-    public List<Autor> getAutores() {
+    public List<AutorDTO> getAutores() {
         return autores;
     }
 
@@ -55,7 +55,7 @@ public class Libro{
         return urlsLibro;
     }
 
-    public Integer getTotalDescargas() {
+    public Long getTotalDescargas() {
         return totalDescargas;
     }
 }

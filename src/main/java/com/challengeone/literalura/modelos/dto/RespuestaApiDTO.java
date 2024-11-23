@@ -1,14 +1,15 @@
-package com.challengeone.literalura.modelos;
+package com.challengeone.literalura.modelos.dto;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public record RespuestaApi(
+public record RespuestaApiDTO(
+
         @SerializedName("count")
         String totalLibrosEncontrados,
 
         @SerializedName("results")
-        List<Libro> resultadosEncontrados
+        List<LibroDTO> resultadosEncontrados
 ) {
     @Override
     public String toString() {

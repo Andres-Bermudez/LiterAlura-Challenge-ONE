@@ -1,6 +1,6 @@
-package com.challengeone.literalura.entidades;
+package com.challengeone.literalura.modelos.entidades;
 
-import com.challengeone.literalura.modelos.Libro;
+import com.challengeone.literalura.modelos.dto.LibroDTO;
 import jakarta.persistence.*;
 import java.util.List;
 import java.util.Map;
@@ -12,47 +12,61 @@ public class LibroEntidad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
     private String titulo;
 
     // Relación ManyToOne con la entidad AutorEntidad
-    @OneToMany(mappedBy = "libroEntidad", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "libroEntidad", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AutorEntidad> autores;
 
-    @ElementCollection(fetch = FetchType.EAGER)  // Usamos ElementCollection para colecciones simples
+    // Relación OneToMany con la colección de idiomas
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "libro_idiomas", joinColumns = @JoinColumn(name = "libro_id"))
     @Column(name = "idioma")
     private List<String> idiomas;
 
     // Relación OneToMany con el Map de URLs (clave-valor)
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "libro_urls", joinColumns = @JoinColumn(name = "libro_id"))
     @MapKeyColumn(name = "clave")
     @Column(name = "url")
     private Map<String, String> urlsLibro;
 
     @Column
-    private Integer totalDescargas;
+    private Long totalDescargas;
 
     public LibroEntidad() {}
 
-    public LibroEntidad(Libro libro) {
-        this.titulo = libro.getTitulo();
-        this.autores = libro.getAutores().stream()
-                .map(a -> new AutorEntidad(a.nombreAutor(), a.fechaNacimientoAutor(), a.fechaFallecimientoAutor()))
+    // Constructor que recibe un DTO
+    public LibroEntidad(LibroDTO libroDTO) {
+        this.titulo = libroDTO.getTitulo();
+        this.autores = libroDTO.getAutores().stream()
+                .map(a -> new AutorEntidad(a.nombreAutor(), a.fechaNacimientoAutor(), a.fechaFallecimientoAutor(), this))
                 .collect(Collectors.toList());
-        this.idiomas = libro.getIdiomas();
-        this.urlsLibro = libro.getUrlsLibro();
-        this.totalDescargas = libro.getTotalDescargas();
+        this.idiomas = libroDTO.getIdiomas();
+        this.urlsLibro = libroDTO.getUrlsLibro();
+        this.totalDescargas = libroDTO.getTotalDescargas();
     }
 
-    public Integer getId() {
+    @Override
+    public String toString() {
+        return "\nId: " + id +
+                "\nTitulo: " + titulo +
+                "\nAutores: " + autores +
+                "\nIdiomas: " + idiomas +
+                "\nURLs: " + urlsLibro +
+                "\nTotal descargas: " + totalDescargas;
+    }
+
+    // Getters y Setters
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -88,12 +102,11 @@ public class LibroEntidad {
         this.urlsLibro = urlsLibro;
     }
 
-    public Integer getTotalDescargas() {
+    public Long getTotalDescargas() {
         return totalDescargas;
     }
 
-    public void setTotalDescargas(Integer totalDescargas) {
+    public void setTotalDescargas(Long totalDescargas) {
         this.totalDescargas = totalDescargas;
     }
 }
-

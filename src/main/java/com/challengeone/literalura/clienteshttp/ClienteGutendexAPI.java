@@ -1,4 +1,4 @@
-package com.challengeone.literalura.api.gutendex;
+package com.challengeone.literalura.clienteshttp;
 
 import java.io.IOException;
 import java.net.URI;
@@ -8,7 +8,7 @@ import java.net.http.HttpResponse;
 
 // La API Gutendex es un catálogo de información de más de 70.000 libros presentes en Project
 // Gutenberg (biblioteca en línea y gratuita).
-public class GutendexConsumoAPI {
+public class ClienteGutendexAPI {
     private final String URL_BASE = "https://gutendex.com/books";
 
     // El método conexionAPI realiza una solicitud HTTP a una URL dada, sigue redirecciones

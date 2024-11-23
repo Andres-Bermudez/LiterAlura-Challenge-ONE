@@ -1,5 +1,7 @@
 <h1 align="center"> LiterAlura </h1>
 
+![arquitectura.png](imagenes/LiterAlura_Arquitectura.png)
+
 ![inicio.png](imagenes/inicio.png)
 
 ## Descripcion:

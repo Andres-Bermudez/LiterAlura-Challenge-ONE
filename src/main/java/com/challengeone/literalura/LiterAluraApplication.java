@@ -1,20 +1,21 @@
 package com.challengeone.literalura;
 
-import com.challengeone.literalura.consola.menus.MenuPrincipal;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import com.challengeone.literalura.presentacion.MenuPrincipal;
 
-@SpringBootApplication
-public class LiterAluraApplication implements CommandLineRunner {
+@SpringBootApplication  // Anotación de arranque de la aplicación Spring Boot
+public class LiterAluraApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LiterAluraApplication.class, args);
-	}
+		// Arrancar la aplicación Spring Boot
+		ApplicationContext context = SpringApplication.run(LiterAluraApplication.class, args);
 
-	@Override
-	public void run(String... args) {
-		MenuPrincipal menuPrincipal = new MenuPrincipal();
+		// Obtener el bean de MenuPrincipal desde el contexto de Spring
+		MenuPrincipal menuPrincipal = context.getBean(MenuPrincipal.class);
+
+		// Llamar al método mostrarMenu para iniciar la aplicación
 		menuPrincipal.mostrarMenu();
 	}
 }

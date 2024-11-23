@@ -1,16 +1,17 @@
-package com.challengeone.literalura.modelos;
+package com.challengeone.literalura.modelos.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-public record Autor(
+public record AutorDTO(
+
         @SerializedName("name")
         String nombreAutor,
 
         @SerializedName("birth_year")
-        Integer fechaNacimientoAutor,
+        String fechaNacimientoAutor,
 
         @SerializedName("death_year")
-        Integer fechaFallecimientoAutor
+        String fechaFallecimientoAutor
 ) {
     @Override
     public String toString() {

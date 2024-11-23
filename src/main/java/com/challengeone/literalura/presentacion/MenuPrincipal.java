@@ -1,21 +1,32 @@
-package com.challengeone.literalura.consola.menus;
+package com.challengeone.literalura.presentacion;
 
-import com.challengeone.literalura.servicios.ConsultaBaseDatosServicio;
-import com.challengeone.literalura.servicios.SolicitudGutendexAPIServicio;
+import com.challengeone.literalura.servicios.persistencia.BaseDatosServicio;
+import com.challengeone.literalura.servicios.convertidores.BusquedaLibrosServicio;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+@Component  // Hace que Spring gestione esta clase como un bean
 public class MenuPrincipal {
 
+    private final BaseDatosServicio baseDatosServicio;
+    private final BusquedaLibrosServicio busquedaLibrosServicio;
+
+    // Inyección de dependencias a través del constructor
+    @Autowired
+    public MenuPrincipal(BaseDatosServicio baseDatosServicio, BusquedaLibrosServicio busquedaLibrosServicio) {
+        this.baseDatosServicio = baseDatosServicio;
+        this.busquedaLibrosServicio = busquedaLibrosServicio;
+    }
+
     public void mostrarMenu() {
-        ConsultaBaseDatosServicio consultaBaseDatosServicio = new ConsultaBaseDatosServicio();
-        SolicitudGutendexAPIServicio solicitudGutendexAPIServicio = new SolicitudGutendexAPIServicio();
         Scanner sc = new Scanner(System.in);
         int eleccionUsuario;
         String menuPrincipal = """
                                 \n ::::::::::::::: INICIO :::::::::::::::
-                                     1. Buscar un libro por su titulo.
+                                     1. Buscar un libro.
                                      2. Listar libros almacenados.
                                      3. Listar autores registrados.
                                      4. Listar autores vivos en un determinado año.
@@ -29,7 +40,7 @@ public class MenuPrincipal {
                 eleccionUsuario = sc.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("\nError: Ingresaste un caracter no valido.");
-                sc.nextLine();
+                sc.nextLine();  // Limpiar el buffer
                 continue;
             }
 
@@ -39,19 +50,19 @@ public class MenuPrincipal {
                     System.exit(0);
                     break;
                 case 1:
-                    solicitudGutendexAPIServicio.buscarLibroPorTitulo();
+                    busquedaLibrosServicio.buscarLibroPorTitulo();
                     break;
                 case 2:
-                    consultaBaseDatosServicio.listarLibrosAlmacenados();
+                    baseDatosServicio.listarLibrosAlmacenados();
                     break;
                 case 3:
-                    consultaBaseDatosServicio.listarAutoresRegistrados();
+                    baseDatosServicio.listarAutoresRegistrados();
                     break;
                 case 4:
-                    solicitudGutendexAPIServicio.listarAutoresVivosPorAno();
+                    busquedaLibrosServicio.listarAutoresVivosPorAno();
                     break;
                 case 5:
-                    solicitudGutendexAPIServicio.listarLibrosPorIdioma();
+                    busquedaLibrosServicio.listarLibrosPorIdioma();
                     break;
                 default:
                     System.out.println("\nError: Esta opcion no esta disponible.");
