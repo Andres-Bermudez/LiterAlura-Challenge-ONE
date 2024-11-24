@@ -17,7 +17,7 @@ import java.util.Scanner;
 @Service
 public class BusquedaLibrosServicio {
 
-    private List<LibroDTO> listaLibrosEncontrados = new ArrayList<>();
+    private final List<LibroDTO> listaLibrosEncontrados = new ArrayList<>();
     private final BaseDatosServicio baseDatosServicio;
     private final SolicitudesGutendexAPI solicitudesGutendexAPI; // Inyección de SolicitudesGutendexAPI
 
@@ -41,7 +41,7 @@ public class BusquedaLibrosServicio {
             String endpoint = "?search=" + tituloLibroBuscado.trim().replace(" ", "%20");
 
             // Hacer la solicitud a la API y recibir una respuesta.
-            String respuestaApiJson = solicitudesGutendexAPI.solicitudAPI(endpoint);  // Ahora lo llamas de la instancia
+            String respuestaApiJson = SolicitudesGutendexAPI.solicitudAPI(endpoint);  // Ahora lo llamas de la instancia
 
             // Convertir los datos recibidos.
             if (respuestaApiJson != null) {
@@ -77,12 +77,6 @@ public class BusquedaLibrosServicio {
                 System.out.println("\nLa consulta a la API de Gutendex retornó como respuesta un NULL.");
             }
         }
-    }
-
-    public void listarAutoresVivosPorAno() {
-    }
-
-    public void listarLibrosPorIdioma() {
     }
 }
 

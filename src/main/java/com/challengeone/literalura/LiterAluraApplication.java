@@ -15,7 +15,7 @@ public class LiterAluraApplication {
 		// Obtener el bean de MenuPrincipal desde el contexto de Spring
 		MenuPrincipal menuPrincipal = context.getBean(MenuPrincipal.class);
 
-		// Llamar al método mostrarMenu para iniciar la aplicación
+		// Llamar al método mostrarMenu para iniciar la aplicación.
 		menuPrincipal.mostrarMenu();
 	}
 }

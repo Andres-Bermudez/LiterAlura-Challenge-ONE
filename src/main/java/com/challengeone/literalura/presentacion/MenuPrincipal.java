@@ -4,7 +4,6 @@ import com.challengeone.literalura.servicios.persistencia.BaseDatosServicio;
 import com.challengeone.literalura.servicios.convertidores.BusquedaLibrosServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -29,7 +28,7 @@ public class MenuPrincipal {
                                      1. Buscar un libro.
                                      2. Listar libros almacenados.
                                      3. Listar autores registrados.
-                                     4. Listar autores vivos en un determinado año.
+                                     4. Listar autores por un determinado año.
                                      5. Listar libros por idioma.
                                      0. Salir
                                """;
@@ -59,10 +58,10 @@ public class MenuPrincipal {
                     baseDatosServicio.listarAutoresRegistrados();
                     break;
                 case 4:
-                    busquedaLibrosServicio.listarAutoresVivosPorAno();
+                    baseDatosServicio.listarAutoresPorAno();
                     break;
                 case 5:
-                    busquedaLibrosServicio.listarLibrosPorIdioma();
+                    baseDatosServicio.listarLibrosPorIdioma();
                     break;
                 default:
                     System.out.println("\nError: Esta opcion no esta disponible.");

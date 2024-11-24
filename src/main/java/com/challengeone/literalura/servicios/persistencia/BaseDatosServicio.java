@@ -1,6 +1,5 @@
 package com.challengeone.literalura.servicios.persistencia;
 
-import com.challengeone.literalura.modelos.dto.LibroDTO;
 import com.challengeone.literalura.modelos.entidades.AutorEntidad;
 import com.challengeone.literalura.modelos.entidades.LibroEntidad;
 import com.challengeone.literalura.repositorios.AutorRepositorio;
@@ -9,24 +8,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
+import java.util.Scanner;
 
 @Service
 public class BaseDatosServicio {
 
-    private final LibroRepository libroRepository;
+    private final LibroRepository libroRepositorio;
     private final AutorRepositorio autorRepositorio;
 
     @Autowired
-    public BaseDatosServicio(LibroRepository libroRepository, AutorRepositorio autorRepositorio) {
-        this.libroRepository = libroRepository;
+    public BaseDatosServicio(LibroRepository libroRepositorio, AutorRepositorio autorRepositorio) {
+        this.libroRepositorio = libroRepositorio;
         this.autorRepositorio = autorRepositorio;
     }
 
     public void agregarLibro(LibroEntidad libroEntidad) {
         try {
-            libroRepository.save(libroEntidad);
+            libroRepositorio.save(libroEntidad);
             System.out.println("\nLibro guardado en la base de datos.");
         } catch (DataIntegrityViolationException e) {
             System.out.println("\nEste libro ya esta almacenado en la base de datos.");
@@ -35,7 +34,7 @@ public class BaseDatosServicio {
 
     @Transactional(readOnly = true)
     public void listarLibrosAlmacenados() {
-        List<LibroEntidad> libros = libroRepository.findAll();
+        List<LibroEntidad> libros = libroRepositorio.findAll();
 
         libros.forEach(libro -> {
             // Construir la cadena de autores
@@ -71,5 +70,44 @@ public class BaseDatosServicio {
                     "\nFecha de nacimiento: " + autor.getFechaNacimientoAutor() +
                     "\nFecha de fallecimiento: " + autor.getFechaFallecimientoAutor());
         });
+    }
+
+    public void listarAutoresPorAno() {
+        Scanner sc = new Scanner(System.in);
+        String anoBuscado = null;
+
+        while (anoBuscado == null) {
+            System.out.print("\nIngresa el año del que deseas buscar: ");
+            anoBuscado = sc.nextLine();
+        }
+        // Ejecutar la consulta a la base de datos.
+        List<AutorEntidad> respuestaBaseDatos = autorRepositorio.autoresPorAno(anoBuscado);
+
+        if (!respuestaBaseDatos.isEmpty()) {
+            System.out.println("\nDatos Encontrados: ");
+            respuestaBaseDatos.forEach(System.out::println);
+        } else {
+            System.out.println("\nNo se encontraron registros con esta fecha.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public void listarLibrosPorIdioma() {
+        Scanner sc = new Scanner(System.in);
+        String idiomaBuscado = null;
+
+        while(idiomaBuscado == null) {
+            System.out.print("\nIngresa el idioma por el que deseas filtrar: ");
+            idiomaBuscado = sc.nextLine();
+        }
+        // Ejecutar la consulta a la base de datos.
+        List<LibroEntidad> respuestaBaseDatos = libroRepositorio.librosPorIdioma(idiomaBuscado);
+
+        if (!respuestaBaseDatos.isEmpty()) {
+            System.out.println("\nDatos Encontrados: ");
+            respuestaBaseDatos.forEach(System.out::println);
+        } else {
+            System.out.println("\nNo se encontraron registros con esta fecha.");
+        }
     }
 }
