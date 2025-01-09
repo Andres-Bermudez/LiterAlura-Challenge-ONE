@@ -5,12 +5,12 @@ import org.springframework.stereotype.Component;
 @Component  // Esto hace que esta clase sea un bean gestionado por Spring
 public class SolicitudesGutendexAPI {
 
-    private static ClienteGutendexAPI clienteGutendexAPI = new ClienteGutendexAPI();
+    private static ClienteHttpGutendexAPI clienteHttpGutendexAPI = new ClienteHttpGutendexAPI();
 
     public static String solicitudAPI(String endpoint) {
         String json = null;
         try {
-            json = clienteGutendexAPI.solicitarGutendexAPI(endpoint);
+            json = clienteHttpGutendexAPI.solicitarGutendexAPI(endpoint);
             if (json != null) {
                 return json;
             }
